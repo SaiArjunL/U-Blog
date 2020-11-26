@@ -12,16 +12,16 @@ public class PostNotFoundException extends Exception {
         super(message);
     }
 
-    public static void main(String[] args) {
-        try {
-            throw new PostNotFoundException("Custom Message");
-        } catch (PostNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
-        /**
-         * Your output should look like this.
-         * Custom Message
-         */
-    }
+//    public static void main(String[] args) {
+//        try {
+//            throw new PostNotFoundException("Custom Message");
+//        } catch (PostNotFoundException e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//        /**
+//         * Your output should look like this.
+//         * Custom Message
+//         */
+//    }
 }

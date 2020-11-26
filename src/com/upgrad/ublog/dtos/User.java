@@ -61,17 +61,17 @@ public class User {
                 '}';
     }
 
-    public static void main(String[] args) {
-        User user = new User();
-        user.setUserId(1);
-        user.setEmailId("dummy@dummy.com");
-        user.setPassword("password");
-
-        System.out.println(user);
-
-        /**
-         * Your output should be similar to this.
-         * User{userId=1, emailId='dummy@dummy.com', password='password'}
-         */
-    }
+//    public static void main(String[] args) {
+//        User user = new User();
+//        user.setUserId(1);
+//        user.setEmailId("dummy@dummy.com");
+//        user.setPassword("password");
+//
+//        System.out.println(user);
+//
+//        /**
+//         * Your output should be similar to this.
+//         * User{userId=1, emailId='dummy@dummy.com', password='password'}
+//         */
+//    }
 }

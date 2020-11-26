@@ -12,16 +12,16 @@ public class IncorrectPasswordException extends Exception {
         super(message);
     }
 
-    public static void main(String[] args) {
-        try {
-            throw new IncorrectPasswordException("Custom Message");
-        } catch (IncorrectPasswordException e) {
-            System.out.println(e.getMessage());
-        }
-
-        /**
-         * Your output should look like this.
-         * Custom Message
-         */
-    }
+//    public static void main(String[] args) {
+//        try {
+//            throw new IncorrectPasswordException("Custom Message");
+//        } catch (IncorrectPasswordException e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//        /**
+//         * Your output should look like this.
+//         * Custom Message
+//         */
+//    }
 }

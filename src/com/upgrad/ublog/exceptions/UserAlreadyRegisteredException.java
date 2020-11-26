@@ -12,16 +12,16 @@ public class UserAlreadyRegisteredException extends Exception{
         super(message);
     }
 
-    public static void main(String[] args) {
-        try {
-            throw new UserAlreadyRegisteredException("Custom Message");
-        } catch (UserAlreadyRegisteredException e) {
-            System.out.println(e.getMessage());
-        }
-
-        /**
-         * Your output should look like this.
-         * Custom Message
-         */
-    }
+//    public static void main(String[] args) {
+//        try {
+//            throw new UserAlreadyRegisteredException("Custom Message");
+//        } catch (UserAlreadyRegisteredException e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//        /**
+//         * Your output should look like this.
+//         * Custom Message
+//         */
+//    }
 }
