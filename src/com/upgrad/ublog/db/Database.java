@@ -1,5 +1,7 @@
 package com.upgrad.ublog.db;
 
+import java.sql.Connection;
+
 /**
  * TODO 3.2: Implement the Database class using the Singleton Pattern (Hint. Should have the
  *  private no-arg constructor, a private static connection attribute of type Connection and a public
@@ -13,6 +15,21 @@ package com.upgrad.ublog.db;
 
 public class Database {
 
+    private static Connection connection;
+
+    private Database(){
+
+    }
+
+    public static Connection getConnection(){
+        if(connection == null){
+            connection = new Connection() {
+            }
+
+        }
+
+        return connection;
+    }
 
 //    public static void main(String[] args) throws SQLException {
 //        try {
