@@ -1,5 +1,6 @@
 package com.upgrad.ublog.dtos;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 /**

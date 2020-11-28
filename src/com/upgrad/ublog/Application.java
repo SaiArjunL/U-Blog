@@ -86,6 +86,32 @@ public class Application {
         System.out.println("*********************");
 
 
+        System.out.print("Email Id: ");
+        String emailId;
+
+
+        emailId = scanner.nextLine();
+        System.out.println("You entered: " + emailId);
+
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        User user = new User();
+        user.setEmailId(emailId);
+        user.setPassword(password);
+
+
+        try {
+            if (userService.login(user)) {
+                System.out.println("You are logged in.");
+                isLoggedIn = true;
+                loggedInEmailId = user.getEmailId();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
@@ -108,6 +134,30 @@ public class Application {
         System.out.println("******Register*******");
         System.out.println("*********************");
 
+        System.out.print("Email Id: ");
+        String emailId;
+
+
+        emailId = scanner.nextLine();
+        System.out.println("You entered: " + emailId);
+
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        User user = new User();
+        user.setEmailId(emailId);
+        user.setPassword(password);
+
+        try {
+            if (userService.register(user)) {
+                System.out.println("You are logged in.");
+                isLoggedIn = true;
+                loggedInEmailId = user.getEmailId();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -152,7 +202,34 @@ public class Application {
         System.out.println("*****Create Post*****");
         System.out.println("*********************");
 
+        System.out.print("Post tag: ");
+        String postTag;
+        postTag = scanner.nextLine();
 
+        System.out.print("Post title: ");
+        String postTitle;
+        postTitle = scanner.nextLine();
+
+        System.out.print("Post description: ");
+        String postDescription;
+        postDescription = scanner.nextLine();
+
+        Post post = new Post();
+        post.setPostId(3);
+        post.setEmailId(loggedInEmailId);
+        post.setTag(postTag);
+        post.setTitle(postTitle);
+        post.setDescription(postDescription);
+        post.setTimestamp(LocalDateTime.now());
+
+
+        try {
+            if (postService.create(post) != null) {
+                System.out.println("New post created!!");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -241,8 +318,8 @@ public class Application {
      */
     public static void main(String[] args) {
         ServiceFactory serviceFactory = new ServiceFactory();
-        UserService userService = null;
-        PostService postService = null;
+        UserService userService = serviceFactory.getUserService();
+        PostService postService = serviceFactory.getPostService();
         Application application = new Application(postService, userService);
         application.start();
     }

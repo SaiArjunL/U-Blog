@@ -1,6 +1,8 @@
 package com.upgrad.ublog.db;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * TODO 3.2: Implement the Database class using the Singleton Pattern (Hint. Should have the
@@ -15,23 +17,33 @@ import java.sql.Connection;
 
 public class Database {
 
-    private static Connection connection;
+    private static Connection connection = null;
 
     private Database(){
 
     }
 
     public static Connection getConnection(){
-        if(connection == null){
-            connection = new Connection() {
+
+        if (connection == null) {
+
+            String url = "jdbc:mysql://localhost/ublog";
+            String username = "arjun";
+            String password = "13020Ec@225";
+
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(url, username, password);
+            } catch (ClassNotFoundException e) {
+                System.out.println("MySQL Driver not found. Please download and add the driver.");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
         }
-
         return connection;
     }
 
-//    public static void main(String[] args) throws SQLException {
+//    public static void main(String[] args){
 //        try {
 //            Database.getConnection();
 //            System.out.println("Connected");
