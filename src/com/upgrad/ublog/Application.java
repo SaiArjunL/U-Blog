@@ -193,7 +193,7 @@ public class Application {
      *  thread1: Saving data into the database
      *  thread2: Writing logs into the file
      */
-    private void createPost() {
+    private void createPost() throws Exception {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;
@@ -216,7 +216,8 @@ public class Application {
         postDescription = scanner.nextLine();
 
         Post post = new Post();
-        int count = postCounter++;
+//        int count = postCounter++;
+        int count = 3;
         post.setPostId(count);
         post.setEmailId(loggedInEmailId);
         post.setTag(postTag);
@@ -227,10 +228,15 @@ public class Application {
         try {
             if (postService.create(post) != null) {
                 System.out.println("New post created!!");
+                String path = System.getProperty("user.dir");
+//                System.out.println(path);
+                String logMessage = "New post with title " + post.getTitle() + " created by " + post.getEmailId();
+                LogWriter.writeLog(logMessage, path);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
     }
 
     /**
