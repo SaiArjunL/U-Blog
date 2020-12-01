@@ -22,6 +22,7 @@ public class Application {
 
     private boolean isLoggedIn;
     private String loggedInEmailId;
+    private static int postCounter;
 
     public Application(PostService postService, UserService userService) {
         scanner = new Scanner(System.in);
@@ -31,7 +32,7 @@ public class Application {
         loggedInEmailId = null;
     }
 
-    private void start() {
+    private void start() throws Exception {
         boolean flag = true;
 
         System.out.println("*********************");
@@ -215,13 +216,13 @@ public class Application {
         postDescription = scanner.nextLine();
 
         Post post = new Post();
-        post.setPostId(3);
+        int count = postCounter++;
+        post.setPostId(count);
         post.setEmailId(loggedInEmailId);
         post.setTag(postTag);
         post.setTitle(postTitle);
         post.setDescription(postDescription);
-        post.setTimestamp(LocalDateTime.now());
-
+        post.setTimestamp(DateTimeFormatter.format(LocalDateTime.now()));
 
         try {
             if (postService.create(post) != null) {
@@ -242,7 +243,7 @@ public class Application {
      *  a single catch block which handles all exceptions using the Exception class and print the
      *  exception message using the getMessage() method.
      */
-    private void searchPost() {
+    private void searchPost() throws Exception {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;
@@ -252,6 +253,25 @@ public class Application {
         System.out.println("*****Search Post*****");
         System.out.println("*********************");
 
+        System.out.print("Email Id: ");
+        String emailId = scanner.nextLine();
+
+        List<Post> posts;
+
+        try {
+           posts = postService.getPostsByEmailId(emailId);
+
+           if (posts.size() == 0)  {
+                throw new PostNotFoundException("Sorry no posts exists for this email id");
+            } else {
+                System.out.println("Searched Posts: ");
+                for(Post post: posts)
+                    System.out.println(post);
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -266,7 +286,7 @@ public class Application {
      *  a single catch block which handles all exceptions using the Exception class and print the
      *  exception message using the getMessage() method.
      */
-    private void deletePost() {
+    private void deletePost() throws Exception {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;
@@ -276,7 +296,19 @@ public class Application {
         System.out.println("*****Delete Post*****");
         System.out.println("*********************");
 
+        System.out.print("Post Id: ");
+        int postId = scanner.nextInt();
 
+        try {
+
+            if (postService.deletePost(postId, loggedInEmailId)) {
+                System.out.println("Post deleted successfully!");
+            } else {
+                System.out.println("You are not authorised to delete this post");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -290,7 +322,7 @@ public class Application {
      *  a single catch block which handles all exceptions using the Exception class and print the
      *  exception message using the getMessage() method.
      */
-    private void filterPost() {
+    private void filterPost() throws Exception {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;
@@ -300,6 +332,28 @@ public class Application {
         System.out.println("*****Filter Post*****");
         System.out.println("*********************");
 
+        for(String tag: postService.getAllTags()){
+            System.out.println(tag);
+        }
+
+        System.out.print("Enter tag: ");
+        String tag = scanner.nextLine();
+
+        List<Post> posts;
+
+        try {
+             posts = postService.getPostsByTag(tag);
+
+             if (posts.size() == 0) {
+                throw new PostNotFoundException("Sorry no posts exists for this tag");
+            } else {
+                System.out.println("Filtered Posts: ");
+                for(Post post: posts)
+                    System.out.println(post);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -316,7 +370,7 @@ public class Application {
     /**
      * TODO 3.16. Instantiate the userService and the postService variables using the ServiceFactory.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ServiceFactory serviceFactory = new ServiceFactory();
         UserService userService = serviceFactory.getUserService();
         PostService postService = serviceFactory.getPostService();

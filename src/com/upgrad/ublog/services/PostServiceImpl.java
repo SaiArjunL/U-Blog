@@ -54,8 +54,11 @@ package com.upgrad.ublog.services;
 import com.upgrad.ublog.dao.DAOFactory;
 import com.upgrad.ublog.dao.PostDAO;
 import com.upgrad.ublog.dtos.Post;
+import com.upgrad.ublog.exceptions.PostNotFoundException;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -97,21 +100,64 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public List<Post> getPostsByEmailId(String emailId) throws Exception {
-        return null;
+
+        List<Post> posts;
+        try {
+            posts = postDAO.findByEmailId(emailId);
+        } catch (SQLException e) {
+            throw new Exception("Some unexpected exception occurred!");
+        }
+        return posts;
     }
 
     @Override
     public List<Post> getPostsByTag(String tag) throws Exception {
-        return null;
+
+        List<Post> posts = null;
+
+        try {
+            posts = postDAO.findByTag(tag);
+        } catch (Exception e) {
+            System.out.println("Some unexpected exception occurred!");
+        }
+
+        return posts;
     }
 
     @Override
     public Set<String> getAllTags() throws Exception {
-        return null;
+
+        List<String> tagsList = new ArrayList<>();
+
+        try {
+            tagsList = postDAO.findAllTags();
+        } catch (Exception e) {
+            System.out.println("Some unexpected exception occurred!");
+        }
+
+        return new LinkedHashSet<>(tagsList);
+
     }
 
     @Override
     public boolean deletePost(int postId, String emailId) throws Exception {
-        return false;
+
+        Post post;
+
+        try {
+            post = postDAO.findByPostId(postId);
+            if (post == null){
+                throw new PostNotFoundException("No Post exist with the given Post Id");
+            }
+            else if (post.getEmailId().equals(emailId)) {
+                return postDAO.deleteByPostId(postId);
+            }
+            else {
+                return false;
+            }
+        } catch (SQLException e){
+            throw new Exception("Some unexpected exception occurred!");
+        }
+
     }
 }

@@ -23,13 +23,13 @@ public class Post {
     private String tag;
     private String title;
     private String description;
-    private LocalDateTime timestamp;
+    private String timestamp;
 
     public Post(){
 
     }
 
-    public Post(int postId, String emailId, String tag, String title, String description, LocalDateTime timestamp){
+    public Post(int postId, String emailId, String tag, String title, String description, String timestamp){
         this.postId = postId;
         this.emailId = emailId;
         this.tag = tag;
@@ -78,11 +78,11 @@ public class Post {
         this.description = description;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

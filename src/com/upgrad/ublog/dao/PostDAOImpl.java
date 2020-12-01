@@ -36,8 +36,11 @@ import com.upgrad.ublog.db.Database;
 import com.upgrad.ublog.dtos.Post;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,26 +77,113 @@ public class PostDAOImpl implements PostDAO {
 
     @Override
     public List<Post> findByEmailId(String emailId) throws SQLException {
-        return null;
+
+        List<Post> posts = new ArrayList<>();
+
+        Connection connection = Database.getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "SELECT * FROM post WHERE emailId = '" + emailId + "'";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+            Post temp = new Post();
+            temp.setPostId(resultSet.getInt("postId"));
+            temp.setEmailId(resultSet.getString("emailId"));
+            temp.setTag(resultSet.getString("tag"));
+            temp.setTitle(resultSet.getString("title"));
+            temp.setDescription(resultSet.getString("description"));
+            temp.setTimestamp(resultSet.getString("timestamp"));
+
+            posts.add(temp);
+        }
+
+        return posts;
     }
 
     @Override
     public List<Post> findByTag(String tag) throws SQLException {
-        return null;
+
+        List<Post> tags = new ArrayList<>();
+
+        Connection connection = Database.getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "SELECT * FROM post WHERE tag = '" + tag + "'";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+                Post post = new Post();
+                post.setPostId(resultSet.getInt("postId"));
+                post.setEmailId(resultSet.getString("emailId"));
+                post.setTag(resultSet.getString("tag"));
+                post.setTitle(resultSet.getString("title"));
+                post.setDescription(resultSet.getString("description"));
+                post.setTimestamp(resultSet.getString("timestamp"));
+
+                tags.add(post);
+        }
+
+        return tags;
     }
 
     @Override
     public Post findByPostId(int postId) throws SQLException {
-        return null;
+
+        Post post = new Post();
+
+        Connection connection = Database.getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "SELECT * FROM post WHERE postId = " + postId;
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        if(!resultSet.next()){
+            return null;
+        }
+
+         do {
+             post.setPostId(resultSet.getInt("postId"));
+             post.setEmailId(resultSet.getString("emailId"));
+             post.setTag(resultSet.getString("tag"));
+             post.setTitle(resultSet.getString("title"));
+             post.setDescription(resultSet.getString("description"));
+             post.setTimestamp(resultSet.getString("timestamp"));
+            } while (resultSet.next());
+
+        return post;
     }
 
     @Override
     public List<String> findAllTags() throws SQLException {
-        return null;
+        List<String> tags = new ArrayList<>();
+
+        Connection connection = Database.getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "SELECT tag FROM post";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+            tags.add(resultSet.getString("tag"));
+        }
+
+        return tags;
+
     }
 
     @Override
     public boolean deleteByPostId(int postId) throws SQLException {
-        return false;
+
+        Connection connection = Database.getConnection();
+
+        Statement statement = connection.createStatement();
+
+        String sql = "Delete from post where postId = " + postId;
+
+        int count = statement.executeUpdate(sql);
+
+        return count != 0;
+
     }
 }
