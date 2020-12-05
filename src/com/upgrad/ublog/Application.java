@@ -193,7 +193,7 @@ public class Application {
      *  thread1: Saving data into the database
      *  thread2: Writing logs into the file
      */
-    private void createPost() throws Exception {
+    private void createPost() {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;
@@ -217,7 +217,7 @@ public class Application {
 
         Post post = new Post();
 //        int count = postCounter++;
-        int count = 3;
+        int count = 4;
         post.setPostId(count);
         post.setEmailId(loggedInEmailId);
         post.setTag(postTag);
@@ -226,13 +226,33 @@ public class Application {
         post.setTimestamp(DateTimeFormatter.format(LocalDateTime.now()));
 
         try {
-            if (postService.create(post) != null) {
-                System.out.println("New post created!!");
-                String path = System.getProperty("user.dir");
-//                System.out.println(path);
-                String logMessage = "New post with title " + post.getTitle() + " created by " + post.getEmailId();
-                LogWriter.writeLog(logMessage, path);
-            }
+
+            Thread createPostThread = new Thread()
+            {
+                public void run()
+                {
+                    try {
+                        postService.create(post);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            createPostThread.start();
+
+            System.out.println("New post created!!");
+            String path = System.getProperty("user.dir");
+            String logMessage = "New post with title " + post.getTitle() + " created by " + post.getEmailId();
+
+            Thread loggerThread = new Thread()
+            {
+                public void run()
+                {
+                    LogWriter.writeLog(logMessage, path);
+                }
+            };
+            loggerThread.start();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -249,7 +269,7 @@ public class Application {
      *  a single catch block which handles all exceptions using the Exception class and print the
      *  exception message using the getMessage() method.
      */
-    private void searchPost() throws Exception {
+    private void searchPost() {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;
