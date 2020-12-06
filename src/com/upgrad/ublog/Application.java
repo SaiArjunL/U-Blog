@@ -9,7 +9,6 @@ import com.upgrad.ublog.services.UserService;
 import com.upgrad.ublog.utils.DateTimeFormatter;
 import com.upgrad.ublog.utils.LogWriter;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -216,8 +215,7 @@ public class Application {
         postDescription = scanner.nextLine();
 
         Post post = new Post();
-//        int count = postCounter++;
-        int count = 4;
+        int count = postCounter++;
         post.setPostId(count);
         post.setEmailId(loggedInEmailId);
         post.setTag(postTag);
