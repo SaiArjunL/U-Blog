@@ -204,7 +204,16 @@ public class Application {
 
         System.out.print("Post tag: ");
         String postTag;
-        postTag = scanner.nextLine();
+
+        while(true){
+            postTag = scanner.nextLine();
+            if(postTag.length() > 10){
+                System.out.println("Tag length should be less than equal to 10 characters!!");
+            } else{
+                break;
+            }
+        }
+
 
         System.out.print("Post title: ");
         String postTitle;
