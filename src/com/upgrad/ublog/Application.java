@@ -12,7 +12,6 @@ import com.upgrad.ublog.utils.LogWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Application {
@@ -331,7 +330,7 @@ public class Application {
      *  a single catch block which handles all exceptions using the Exception class and print the
      *  exception message using the getMessage() method.
      */
-    private void deletePost() throws Exception {
+    private void deletePost() {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
             return;

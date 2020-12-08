@@ -175,14 +175,9 @@ public class PostDAOImpl implements PostDAO {
     public boolean deleteByPostId(int postId) throws SQLException {
 
         Connection connection = Database.getConnection();
-
         Statement statement = connection.createStatement();
-
         String sql = "Delete from post where postId = " + postId;
-
         int count = statement.executeUpdate(sql);
-
         return count != 0;
-
     }
 }
