@@ -69,13 +69,6 @@ public class PostDAOImpl implements PostDAO {
                 post.getTag() + "', '" + post.getTitle() + "', '" + post.getDescription() + "', '" +
                 post.getTimestamp() + "')";
 
-        System.out.println(post.getPostId());
-        System.out.println(post.getEmailId());
-        System.out.println(post.getTag());
-        System.out.println(post.getTitle());
-        System.out.println(post.getDescription());
-        System.out.println(post.getTimestamp());
-
         statement.executeUpdate(sql);
 
         return post;
