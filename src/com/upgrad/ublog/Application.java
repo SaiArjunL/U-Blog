@@ -22,7 +22,6 @@ public class Application {
 
     private boolean isLoggedIn;
     private String loggedInEmailId;
-    private static int postCounter;
     private static final String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                                         "[a-zA-Z0-9_+&*-]+)*@" +
                                         "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -234,8 +233,6 @@ public class Application {
         postDescription = scanner.nextLine();
 
         Post post = new Post();
-        int count = postCounter++;
-        post.setPostId(count);
         post.setEmailId(loggedInEmailId);
         post.setTag(postTag);
         post.setTitle(postTitle);
