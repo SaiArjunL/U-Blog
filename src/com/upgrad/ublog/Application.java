@@ -12,16 +12,23 @@ import com.upgrad.ublog.utils.LogWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Application {
-    private Scanner scanner;
+    private final Scanner scanner;
 
-    private PostService postService;
-    private UserService userService;
+    private final PostService postService;
+    private final UserService userService;
 
     private boolean isLoggedIn;
     private String loggedInEmailId;
     private static int postCounter;
+    private static final String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                                        "[a-zA-Z0-9_+&*-]+)*@" +
+                                        "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                                        "A-Z]{2,7}$";
+    private static final Pattern emailPattern = Pattern.compile(emailRegex);
 
     public Application(PostService postService, UserService userService) {
         scanner = new Scanner(System.in);
@@ -137,10 +144,15 @@ public class Application {
         System.out.print("Email Id: ");
         String emailId;
 
-
-        emailId = scanner.nextLine();
-        System.out.println("You entered: " + emailId);
-
+        while (true) {
+            emailId = scanner.nextLine();
+            if(emailPattern.matcher(emailId).matches()) {
+                System.out.println("You entered: " + emailId);
+                break;
+            }else {
+                System.out.println("Please enter a valid Email Id");
+            }
+        }
 
         System.out.print("Password: ");
         String password = scanner.nextLine();
