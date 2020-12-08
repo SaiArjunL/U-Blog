@@ -15,10 +15,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Application {
-    private final Scanner scanner;
+    private Scanner scanner;
 
-    private final PostService postService;
-    private final UserService userService;
+    private PostService postService;
+    private UserService userService;
 
     private boolean isLoggedIn;
     private String loggedInEmailId;
@@ -224,7 +224,6 @@ public class Application {
                 break;
             }
         }
-
 
         System.out.print("Post title: ");
         String postTitle;

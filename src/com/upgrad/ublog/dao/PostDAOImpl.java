@@ -65,9 +65,16 @@ public class PostDAOImpl implements PostDAO {
 
         Statement statement = connection.createStatement();
 
-        String sql = "insert into post values (" + post.getPostId() + ", '" + post.getEmailId() + "', '" +
+        String sql = "insert into post (emailId, tag, title, description, timestamp) values ('" + post.getEmailId() + "', '" +
                 post.getTag() + "', '" + post.getTitle() + "', '" + post.getDescription() + "', '" +
                 post.getTimestamp() + "')";
+
+        System.out.println(post.getPostId());
+        System.out.println(post.getEmailId());
+        System.out.println(post.getTag());
+        System.out.println(post.getTitle());
+        System.out.println(post.getDescription());
+        System.out.println(post.getTimestamp());
 
         statement.executeUpdate(sql);
 
